@@ -1,0 +1,62 @@
+/*
+ * Copyright 2013 Đorđe Zeljić <zeljic@gmail.com>.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ #wrap {
+	-fx-background-color: #333333, linear-gradient(#62666f 0%, #44474d 100%);
+	-fx-background-insets: 0, 1, 2;
+	-fx-background-radius: 6, 6, 8;
+}
+
+#windowtitle{
+	-fx-text-fill: linear-gradient(#fafafa 0%, #f7f7f7 100%);
+	-fx-effect: dropshadow( one-pass-box, rgba(0, 0, 0, 0.5), 5, 0.2, 0, 1 );
+}
+
+.whitelabel{
+	-fx-text-fill: #fafafa;
+	-fx-effect: dropshadow( one-pass-box, rgba(0, 0, 0, 0.5), 5, 0.2, 0, 1 );
+}
+
+.customtext{
+	-fx-background-color: #454545, linear-gradient(#ebf4b5 0%, #dfe9a5 100%);
+	-fx-background-insets: 1, 2;
+	-fx-background-radius: 3, 4;
+}
+
+.customtext:focused{
+	-fx-effect: dropshadow( two-pass-box, rgba(0, 0, 0, 0.5), 5, 0.2, 0, 0 );
+}
+
+.customBtn{
+	-fx-background-color: #414141, linear-gradient(#efefef 0%, #cacaca 100%);
+	-fx-background-insets: 0, 1;
+}
+
+.customBtn:hover, .check-box:hover .box{
+	-fx-effect: dropshadow( two-pass-box, rgba(0, 0, 0, 0.6), 5, 0.3, 0, 0 );
+}
+
+.customBtn:focused, .check-box:focused .box{
+	-fx-effect: dropshadow( two-pass-box, rgba(0, 0, 0, 0.5), 5, 0.2, 0, 0 );
+}
+
+#txtPassword{
+	-fx-font-size: 20;
+	-fx-font-family: 'Courier New';
+}
+
+.check-box:focused .box {
+    -fx-background-insets: -0.1, 0, 1, 2;
+}

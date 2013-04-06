@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="wrap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="445.0" xmlns:fx="http://javafx.com/fxml">
+  <children>
+    <Pane id="actionsWrap" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <GridPane layoutX="14.0" layoutY="50.0" prefWidth="417.0">
+          <children>
+            <Label styleClass="whitelabel" text="Password Length :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <Label styleClass="whitelabel" text="Alpha Characters :" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <Label styleClass="whitelabel" text="Non Alpha Characters :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <TextField id="txtLength" alignment="CENTER_LEFT" prefWidth="200.0" promptText="" styleClass="customtext" text="8" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+            <CheckBox id="chbLower" mnemonicParsing="false" selected="true" styleClass="whitelabel, chbs" text="Lowercase (abc)" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <CheckBox id="chbUpper" mnemonicParsing="false" styleClass="whitelabel, chbs" text="Uppercase (ABC)" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <CheckBox id="chbNumbers" mnemonicParsing="false" selected="true" styleClass="whitelabel, chbs" text="Numbers (123)" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <CheckBox id="chbSymbols" mnemonicParsing="false" styleClass="whitelabel, chbs" text="Symbols (@#$)" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+          </children>
+          <columnConstraints>
+            <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="197.0" minWidth="10.0" prefWidth="131.0" />
+            <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="267.0" minWidth="10.0" prefWidth="121.0" />
+            <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="358.0" minWidth="10.0" prefWidth="137.0" />
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+        </GridPane>
+        <GridPane alignment="CENTER_LEFT" gridLinesVisible="false" hgap="0.0" layoutX="14.0" layoutY="150.0" prefHeight="40.0" vgap="0.0">
+          <children>
+            <Label styleClass="whitelabel" text="Password :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField id="txtPassword" editable="false" minHeight="20.0" prefHeight="40.0" prefWidth="277.0" style="" styleClass="customtext" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+              <GridPane.margin>
+                <Insets />
+              </GridPane.margin>
+            </TextField>
+          </children>
+          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="209.0" minWidth="10.0" prefWidth="140.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="353.0" minWidth="10.0" prefWidth="277.0" />
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+        </GridPane>
+        <GridPane layoutX="14.0" layoutY="200.0" prefWidth="417.0">
+          <children>
+            <Button id="btnCopy" mnemonicParsing="false" styleClass="customBtn" text="Copy" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="0" GridPane.valignment="CENTER">
+              <tooltip>
+                <Tooltip text="Copy generated password" />
+              </tooltip>
+              <GridPane.margin>
+                <Insets left="10.0" />
+              </GridPane.margin>
+            </Button>
+            <Button id="btnGenerate" mnemonicParsing="false" styleClass="customBtn" text="Generate" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="0" GridPane.valignment="CENTER">
+              <tooltip>
+                <Tooltip text="Generate new password" />
+              </tooltip>
+            </Button>
+            <Label id="lblAuthor" style="" styleClass="whitelabel" text="Created by Đorđe Zeljić" GridPane.columnIndex="0" GridPane.rowIndex="0">
+              <tooltip>
+                <Tooltip id="" style="" text="Twitter: djordje.zeljic&#10;Email: zeljic@gmail.com" />
+              </tooltip>
+            </Label>
+          </children>
+          <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="-1.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="-1.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="-1.0" />
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+        </GridPane>
+      </children>
+    </Pane>
+    <GridPane prefHeight="-1.0" prefWidth="-1.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <ImageView id="imgClose" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="0" GridPane.valignment="CENTER">
+          <image>
+            <Image url="@../images/close.png" />
+          </image>
+        </ImageView>
+        <Label id="windowtitle" text="Password Generator" GridPane.columnIndex="0" GridPane.rowIndex="0">
+          <font>
+            <Font size="12.0" />
+          </font>
+        </Label>
+      </children>
+      <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      </rowConstraints>
+    </GridPane>
+  </children>
+  <stylesheets>
+    <URL value="@../styles/core.css" />
+  </stylesheets>
+</AnchorPane>
