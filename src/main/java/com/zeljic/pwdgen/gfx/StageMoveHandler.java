@@ -15,10 +15,8 @@
  */
 package com.zeljic.pwdgen.gfx;
 
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class StageMoveHandler
@@ -27,38 +25,22 @@ public class StageMoveHandler
 
 	public void init(final Stage stage, Node panel)
 	{
-		panel.setOnMousePressed(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event)
-			{
-				if (event.getButton() == MouseButton.PRIMARY)
-				{
-					stage.setOpacity(.6);
+		panel.setOnMousePressed(event -> {
+			if (event.getButton() == MouseButton.PRIMARY) {
+				stage.setOpacity(.6);
 
-					x = stage.getX() - event.getScreenX();
-					y = stage.getY() - event.getScreenY();
-				}
+				x = stage.getX() - event.getScreenX();
+				y = stage.getY() - event.getScreenY();
 			}
 		});
 
-		panel.setOnMouseDragged(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event)
-			{
-				if (event.getButton() == MouseButton.PRIMARY)
-				{
-					stage.setX(event.getScreenX() + x);
-					stage.setY(event.getScreenY() + y);
-				}
+		panel.setOnMouseDragged(event -> {
+			if (event.getButton() == MouseButton.PRIMARY) {
+				stage.setX(event.getScreenX() + x);
+				stage.setY(event.getScreenY() + y);
 			}
 		});
 
-		panel.setOnMouseReleased(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event)
-			{
-				stage.setOpacity(1);
-			}
-		});
+		panel.setOnMouseReleased(event -> stage.setOpacity(1));
 	}
 }

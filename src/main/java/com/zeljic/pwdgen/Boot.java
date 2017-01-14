@@ -17,7 +17,6 @@ package com.zeljic.pwdgen;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -27,26 +26,22 @@ import com.zeljic.pwdgen.gfx.StageMoveHandler;
 
 public class Boot extends Application
 {
-	private Stage _stage;
-	private Scene _scene;
-
 	@Override
 	public void start(Stage stage) throws Exception
 	{
-		_stage = stage;
+		Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/Boot.fxml")));
 
 		stage.initStyle(StageStyle.TRANSPARENT);
-		_scene = new Scene((Parent) FXMLLoader.load(getClass().getResource("/fxml/Boot.fxml")));
-		stage.setScene(_scene);
+		stage.setScene(scene);
 
 		stage.setTitle("Password Generator");
 		stage.setResizable(false);
-		_scene.setFill(Color.TRANSPARENT);
+		scene.setFill(Color.TRANSPARENT);
 
 		stage.show();
 
-		new StageMoveHandler().init(_stage, _scene.lookup("#wrap"));
-		new HandlerManager(_stage).calculate();
+		new StageMoveHandler().init(stage, scene.lookup("#wrap"));
+		new HandlerManager(stage).calculate();
 	}
 
 	public static void main(String[] args)

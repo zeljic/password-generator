@@ -15,20 +15,7 @@
  */
 package com.zeljic.pwdgen;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -40,10 +27,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class HandlerManager
 {
@@ -83,45 +72,35 @@ public class HandlerManager
 		// set disabled panel
 		_paneActionsWrap.setDisable(true);
 
-		Thread th = new Thread(new Runnable() {
-			@Override
-			public void run()
-			{
-				String password = "";
-				ArrayList<char[]> list = _getList();
+		Thread th = new Thread(() -> {
+			String password = "";
+			ArrayList<char[]> list = _getList();
 
-				int n = Integer.valueOf(_txtLength.getText());
-				int nlist = list.size();
-				int i = 0;
+			int n = Integer.valueOf(_txtLength.getText());
+			int nlist = list.size();
+			int i = 0;
 
-				Random random = new Random();
+			Random random = new Random();
 
-				while (password.length() != n)
-				{
-					password += list.get(i)[random.nextInt(list.get(i).length)];
-					i = ++i == nlist ? 0 : i;
-				}
-
-				List<String> str = Arrays.asList(password.split(""));
-				Collections.shuffle(str);
-
-				password = "";
-
-				for (int j = 0, size = str.size(); j < size; ++j)
-					password += str.get(j);
-
-				final String _p = password;
-
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run()
-					{
-						_paneActionsWrap.setDisable(false);
-						_txtPassword.setText(_p);
-						_btnGenerate.requestFocus();
-					}
-				});
+			while (password.length() != n) {
+				password += list.get(i)[random.nextInt(list.get(i).length)];
+				i = ++i == nlist ? 0 : i;
 			}
+
+			List<String> str = Arrays.asList(password.split(""));
+			Collections.shuffle(str);
+
+			password = "";
+
+			for (String aStr : str) password += aStr;
+
+			final String _p = password;
+
+			Platform.runLater(() -> {
+				_paneActionsWrap.setDisable(false);
+				_txtPassword.setText(_p);
+				_btnGenerate.requestFocus();
+			});
 		});
 
 		th.start();
@@ -131,21 +110,14 @@ public class HandlerManager
 	{
 		_btnGenerate.requestFocus();
 
-		_btnGenerate.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event)
-			{
-				calculate();
-			}
-		});
+		_btnGenerate.setOnAction(event -> calculate());
 	}
 
 	private ArrayList<char[]> _getList()
 	{
 		ArrayList<char[]> list = new ArrayList<>();
 
-		if (_chbLower.isSelected())
-		{
+		if (_chbLower.isSelected()) {
 			char[] nl = new char[26];
 
 			for (int i = 0; i < 26; i++)
@@ -154,8 +126,7 @@ public class HandlerManager
 			list.add(nl);
 		}
 
-		if (_chbUpper.isSelected())
-		{
+		if (_chbUpper.isSelected()) {
 			char[] nl = new char[26];
 
 			for (int i = 0; i < 26; i++)
@@ -164,8 +135,7 @@ public class HandlerManager
 			list.add(nl);
 		}
 
-		if (_chbNumbers.isSelected())
-		{
+		if (_chbNumbers.isSelected()) {
 			char[] nl = new char[10];
 
 			for (int i = 0; i < 10; i++)
@@ -184,16 +154,11 @@ public class HandlerManager
 
 	private void _initBtnCopy()
 	{
-		_btnCopy.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event)
-			{
-				Clipboard c = Clipboard.getSystemClipboard();
-				ClipboardContent cb = new ClipboardContent();
-				cb.putString(_txtPassword.getText());
-				c.setContent(cb);
-			}
+		_btnCopy.setOnAction(event -> {
+			Clipboard c = Clipboard.getSystemClipboard();
+			ClipboardContent cb = new ClipboardContent();
+			cb.putString(_txtPassword.getText());
+			c.setContent(cb);
 		});
 	}
 
@@ -203,57 +168,30 @@ public class HandlerManager
 		final Image normal = new Image("/images/close.png");
 		final Image hover = new Image("/images/closeh.png");
 
-		_imgClose.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event)
-			{
-				_stage.close();
-			}
-		});
+		_imgClose.setOnMouseClicked(event -> _stage.close());
 
-		_imgClose.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event)
-			{
-				_imgClose.setImage(hover);
-			}
-		});
+		_imgClose.setOnMouseEntered(event -> _imgClose.setImage(hover));
 
-		_imgClose.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event)
-			{
-				_imgClose.setImage(normal);
-			}
-		});
+		_imgClose.setOnMouseExited(event -> _imgClose.setImage(normal));
 	}
 
 	private void _initTxtLength()
 	{
-		_txtLength.textProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue)
-			{
-				Pattern p = Pattern.compile("^[0-9]*$");
-				Matcher m = p.matcher(newValue);
+		_txtLength.textProperty().addListener((observable, oldValue, newValue) -> {
+			Pattern p = Pattern.compile("^[0-9]*$");
+			Matcher m = p.matcher(newValue);
 
-				if (!m.find())
-					_txtLength.setText(oldValue);
-				else if (newValue.length() == 0)
-					_txtLength.setText("1");
-			}
+			if (!m.find())
+				_txtLength.setText(oldValue);
+			else if (newValue.length() == 0)
+				_txtLength.setText("1");
 		});
 
-		_txtLength.setOnKeyPressed(new EventHandler<KeyEvent>() {
-
-			@Override
-			public void handle(KeyEvent event)
-			{
-				if(event.getCode().equals( KeyCode.UP ))
-					_txtLength.setText(String.valueOf(Integer.valueOf(_txtLength.getText()) + 1));
-				else if(event.getCode().equals( KeyCode.DOWN ))
-					_txtLength.setText(String.valueOf(Integer.valueOf(_txtLength.getText()) - (Integer.valueOf(_txtLength.getText()) > 1 ? 1 : 0)));
-			}
+		_txtLength.setOnKeyPressed(event -> {
+			if (event.getCode().equals(KeyCode.UP))
+				_txtLength.setText(String.valueOf(Integer.valueOf(_txtLength.getText()) + 1));
+			else if (event.getCode().equals(KeyCode.DOWN))
+				_txtLength.setText(String.valueOf(Integer.valueOf(_txtLength.getText()) - (Integer.valueOf(_txtLength.getText()) > 1 ? 1 : 0)));
 		});
 	}
 
@@ -261,17 +199,12 @@ public class HandlerManager
 	{
 		Set<Node> nodes = _scene.lookup("#wrap").lookupAll("CheckBox.chbs");
 
-		for (Node node : nodes)
-		{
+		for (Node node : nodes) {
 			final CheckBox cb = (CheckBox) node;
 
-			cb.selectedProperty().addListener(new ChangeListener<Boolean>() {
-				@Override
-				public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
-				{
-					if (_isLast(cb) && newValue == false)
-						cb.setSelected(true);
-				}
+			cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
+				if (_isLast(cb) && !newValue)
+					cb.setSelected(true);
 			});
 		}
 	}
@@ -282,8 +215,7 @@ public class HandlerManager
 
 		Set<Node> nodes = _scene.lookup("#wrap").lookupAll("CheckBox.chbs");
 
-		for (Node node : nodes)
-		{
+		for (Node node : nodes) {
 			if (noChb.getId().equals(node.getId()))
 				continue;
 
