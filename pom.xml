@@ -1,57 +1,98 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.zeljic.pwdgen</groupId>
-	<artifactId>password-generator</artifactId>
-	<name>Password Generator</name>
+    <prerequisites>
+        <maven>3.3.9</maven>
+    </prerequisites>
 
-	<packaging>jar</packaging>
-	<version>1.0.0</version>
+    <groupId>com.zeljic.pwdgen</groupId>
+    <artifactId>password-generator</artifactId>
+    <packaging>jar</packaging>
+    <version>1.1.0</version>
+    <name>Password Generator</name>
+    <url>http://zeljic.com</url>
 
-	<organization>
-		<!-- Used as the 'Vendor' for JNLP generation -->
-		<name>zeljic.com</name>
-	</organization>
-	
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
-	</properties>
+    <organization>
+        <name>zeljic.com</name>
+    </organization>
 
-	<build>
-		<plugins>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
 
-			<plugin>
-				<groupId>com.zenjava</groupId>
-				<artifactId>javafx-maven-plugin</artifactId>
-				<version>1.5</version>
-				<configuration>
+        <v.mainclass>com.zeljic.pwdgen.Boot</v.mainclass>
+        <v.product.name>Password Generator</v.product.name>
+        <v.product.version>1.1.0</v.product.version>
+    </properties>
 
-					<mainClass>com.zeljic.pwdgen.Boot</mainClass>
+    <dependencies>
 
-					<!-- only required if signing the jar file -->
-					<keyStoreAlias>example-user</keyStoreAlias>
-					<keyStorePassword>example-password</keyStorePassword>
-					<permissions>
-						<permission>all-permissions</permission>
-					</permissions>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.7</version>
+        </dependency>
 
-				</configuration>
-			</plugin>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.7</version>
+        </dependency>
 
-		</plugins>
-	</build>
+    </dependencies>
 
+    <build>
 
-	<dependencies>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-		</dependency>
-	</dependencies>
+        <finalName>${v.product.name} v.${v.product.version}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
 
+        <plugins>
+
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>false</addDefaultImplementationEntries>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>${v.mainclass}</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>${v.mainclass}</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
