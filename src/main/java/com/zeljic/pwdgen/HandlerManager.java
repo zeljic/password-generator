@@ -36,47 +36,47 @@ import java.util.regex.Pattern;
 
 public class HandlerManager
 {
-	private Stage _stage;
-	private Scene _scene;
-	private CheckBox _chbLower, _chbUpper, _chbNumbers, _chbSymbols;
-	private Button _btnGenerate, _btnCopy;
-	private TextField _txtLength, _txtPassword;
-	private ImageView _imgClose;
-	private Pane _paneActionsWrap;
+	private Stage stage;
+	private Scene scene;
+	private CheckBox chbLower, chbUpper, chbNumbers, chbSymbols;
+	private Button btnGenerate, btnCopy;
+	private TextField txtLength, txtPassword;
+	private ImageView imgClose;
+	private Pane paneActionsWrap;
 
 	public HandlerManager(Stage stage)
 	{
-		_stage = stage;
-		_scene = stage.getScene();
+		this.stage = stage;
+		scene = stage.getScene();
 
-		_txtLength = (TextField) _scene.lookup("#txtLength");
-		_chbLower = (CheckBox) _scene.lookup("#chbLower");
-		_chbUpper = (CheckBox) _scene.lookup("#chbUpper");
-		_chbNumbers = (CheckBox) _scene.lookup("#chbNumbers");
-		_chbSymbols = (CheckBox) _scene.lookup("#chbSymbols");
-		_btnGenerate = (Button) _scene.lookup("#btnGenerate");
-		_btnCopy = (Button) _scene.lookup("#btnCopy");
-		_txtPassword = (TextField) _scene.lookup("#txtPassword");
-		_imgClose = (ImageView) _scene.lookup("#imgClose");
-		_paneActionsWrap = (Pane) _scene.lookup("#actionsWrap");
+		txtLength = (TextField) scene.lookup("#txtLength");
+		chbLower = (CheckBox) scene.lookup("#chbLower");
+		chbUpper = (CheckBox) scene.lookup("#chbUpper");
+		chbNumbers = (CheckBox) scene.lookup("#chbNumbers");
+		chbSymbols = (CheckBox) scene.lookup("#chbSymbols");
+		btnGenerate = (Button) scene.lookup("#btnGenerate");
+		btnCopy = (Button) scene.lookup("#btnCopy");
+		txtPassword = (TextField) scene.lookup("#txtPassword");
+		imgClose = (ImageView) scene.lookup("#imgClose");
+		paneActionsWrap = (Pane) scene.lookup("#actionsWrap");
 
-		_initTxtLength();
-		_initCheckBoxesValidation();
-		_initBtnGenerate();
-		_initBtnCopy();
-		_initImgClose();
+		initTxtLength();
+		initCheckBoxesValidation();
+		initBtnGenerate();
+		initBtnCopy();
+		initImgClose();
 	}
 
 	public void calculate()
 	{
 		// set disabled panel
-		_paneActionsWrap.setDisable(true);
+		paneActionsWrap.setDisable(true);
 
 		Thread th = new Thread(() -> {
 			String password = "";
-			ArrayList<char[]> list = _getList();
+			ArrayList<char[]> list = getList();
 
-			int n = Integer.valueOf(_txtLength.getText());
+			int n = Integer.valueOf(txtLength.getText());
 			int nlist = list.size();
 			int i = 0;
 
@@ -94,30 +94,30 @@ public class HandlerManager
 
 			for (String aStr : str) password += aStr;
 
-			final String _p = password;
+			final String p = password;
 
 			Platform.runLater(() -> {
-				_paneActionsWrap.setDisable(false);
-				_txtPassword.setText(_p);
-				_btnGenerate.requestFocus();
+				paneActionsWrap.setDisable(false);
+				txtPassword.setText(p);
+				btnGenerate.requestFocus();
 			});
 		});
 
 		th.start();
 	}
 
-	private void _initBtnGenerate()
+	private void initBtnGenerate()
 	{
-		_btnGenerate.requestFocus();
+		btnGenerate.requestFocus();
 
-		_btnGenerate.setOnAction(event -> calculate());
+		btnGenerate.setOnAction(event -> calculate());
 	}
 
-	private ArrayList<char[]> _getList()
+	private ArrayList<char[]> getList()
 	{
 		ArrayList<char[]> list = new ArrayList<>();
 
-		if (_chbLower.isSelected()) {
+		if (chbLower.isSelected()) {
 			char[] nl = new char[26];
 
 			for (int i = 0; i < 26; i++)
@@ -126,7 +126,7 @@ public class HandlerManager
 			list.add(nl);
 		}
 
-		if (_chbUpper.isSelected()) {
+		if (chbUpper.isSelected()) {
 			char[] nl = new char[26];
 
 			for (int i = 0; i < 26; i++)
@@ -135,7 +135,7 @@ public class HandlerManager
 			list.add(nl);
 		}
 
-		if (_chbNumbers.isSelected()) {
+		if (chbNumbers.isSelected()) {
 			char[] nl = new char[10];
 
 			for (int i = 0; i < 10; i++)
@@ -144,7 +144,7 @@ public class HandlerManager
 			list.add(nl);
 		}
 
-		if (_chbSymbols.isSelected())
+		if (chbSymbols.isSelected())
 			list.add("!@#$%^&*()><{}-_+~[]".toCharArray());
 
 		Collections.shuffle(list);
@@ -152,68 +152,68 @@ public class HandlerManager
 		return list;
 	}
 
-	private void _initBtnCopy()
+	private void initBtnCopy()
 	{
-		_btnCopy.setOnAction(event -> {
+		btnCopy.setOnAction(event -> {
 			Clipboard c = Clipboard.getSystemClipboard();
 			ClipboardContent cb = new ClipboardContent();
-			cb.putString(_txtPassword.getText());
+			cb.putString(txtPassword.getText());
 			c.setContent(cb);
 		});
 	}
 
-	private void _initImgClose()
+	private void initImgClose()
 	{
-		_imgClose.setCursor(Cursor.HAND);
+		imgClose.setCursor(Cursor.HAND);
 		final Image normal = new Image("/images/close.png");
 		final Image hover = new Image("/images/closeh.png");
 
-		_imgClose.setOnMouseClicked(event -> _stage.close());
+		imgClose.setOnMouseClicked(event -> stage.close());
 
-		_imgClose.setOnMouseEntered(event -> _imgClose.setImage(hover));
+		imgClose.setOnMouseEntered(event -> imgClose.setImage(hover));
 
-		_imgClose.setOnMouseExited(event -> _imgClose.setImage(normal));
+		imgClose.setOnMouseExited(event -> imgClose.setImage(normal));
 	}
 
-	private void _initTxtLength()
+	private void initTxtLength()
 	{
-		_txtLength.textProperty().addListener((observable, oldValue, newValue) -> {
-			Pattern p = Pattern.compile("^[0-9]*$");
-			Matcher m = p.matcher(newValue);
+		txtLength.textProperty().addListener((observable, oldValue, newValue) -> {
+			final Pattern p = Pattern.compile("^[0-9]*$");
+			final Matcher m = p.matcher(newValue);
 
 			if (!m.find())
-				_txtLength.setText(oldValue);
+				txtLength.setText(oldValue);
 			else if (newValue.length() == 0)
-				_txtLength.setText("1");
+				txtLength.setText("1");
 		});
 
-		_txtLength.setOnKeyPressed(event -> {
+		txtLength.setOnKeyPressed(event -> {
 			if (event.getCode().equals(KeyCode.UP))
-				_txtLength.setText(String.valueOf(Integer.valueOf(_txtLength.getText()) + 1));
+				txtLength.setText(String.valueOf(Integer.valueOf(txtLength.getText()) + 1));
 			else if (event.getCode().equals(KeyCode.DOWN))
-				_txtLength.setText(String.valueOf(Integer.valueOf(_txtLength.getText()) - (Integer.valueOf(_txtLength.getText()) > 1 ? 1 : 0)));
+				txtLength.setText(String.valueOf(Integer.valueOf(txtLength.getText()) - (Integer.valueOf(txtLength.getText()) > 1 ? 1 : 0)));
 		});
 	}
 
-	private void _initCheckBoxesValidation()
+	private void initCheckBoxesValidation()
 	{
-		Set<Node> nodes = _scene.lookup("#wrap").lookupAll("CheckBox.chbs");
+		Set<Node> nodes = scene.lookup("#wrap").lookupAll("CheckBox.chbs");
 
 		for (Node node : nodes) {
 			final CheckBox cb = (CheckBox) node;
 
 			cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
-				if (_isLast(cb) && !newValue)
+				if (isLast(cb) && !newValue)
 					cb.setSelected(true);
 			});
 		}
 	}
 
-	private boolean _isLast(CheckBox noChb)
+	private boolean isLast(CheckBox noChb)
 	{
 		int n = 0;
 
-		Set<Node> nodes = _scene.lookup("#wrap").lookupAll("CheckBox.chbs");
+		Set<Node> nodes = scene.lookup("#wrap").lookupAll("CheckBox.chbs");
 
 		for (Node node : nodes) {
 			if (noChb.getId().equals(node.getId()))

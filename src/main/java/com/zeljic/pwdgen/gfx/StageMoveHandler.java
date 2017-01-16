@@ -23,7 +23,7 @@ public class StageMoveHandler
 {
 	private double x, y;
 
-	public void init(final Stage stage, Node panel)
+	public void init(final Stage stage, final Node panel)
 	{
 		panel.setOnMousePressed(event -> {
 			if (event.getButton() == MouseButton.PRIMARY) {
